@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>An example .io game</title>
+</head>
+<body>
+    <div id='container'>
+        <div id='canvas_div' style="border: 1px solid black;">
+            <canvas id="canvas_game" width="300", height="150"></canvas>
+        </div>
+        <div id="play-menu" class="hidden">
+          <script type="module" src="../client/client.js"></script>
+          <script type="module" src="../client/client_networking.js"></script>
+            <input type="text" id="username-input" placeholder="Username" />
+            <button id="btn_play">PLAY</button>
+        </div>
+        <div id='test_div' style="display: none;">
+            <h1>LobbyScreen</h1>
+        </div>
+    </div>
+</body>
+</html>
