@@ -15,6 +15,7 @@ abstract class IRoom{
     /**
      * Adds a WebSocket client to the room
      * @param client Client to add
+     * @returns {boolean} True if client has been added, False otherwise
      */
     addClient(client : WebSocket){
         if (this.clients.has(client)) return false

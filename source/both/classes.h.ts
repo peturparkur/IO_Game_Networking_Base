@@ -5,6 +5,9 @@
 class EventHandler{
     listeners : Map<string, Function[]>
 
+    /**
+     * Creates an EventHandler which can register and emit events
+     */
     constructor(){
         this.listeners = new Map<string, Array<Function>>()
     }
@@ -84,6 +87,11 @@ interface IToString {
 class Message implements IMessage, IToString{
     action: string;
     data: any;
+    /**
+     * Creates a new WebSocket Message
+     * @param action Event name
+     * @param data arg to give the event call
+     */
     constructor(action : string, data : any = null){
         this.action = action;
         this.data = data;
@@ -93,6 +101,9 @@ class Message implements IMessage, IToString{
     }
 }
 
+/**
+ * 
+ */
 abstract class AbstractGame extends EventHandler {
     constructor(){
         super()
