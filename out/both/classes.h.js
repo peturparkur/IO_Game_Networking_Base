@@ -1,7 +1,19 @@
+/**
+ * Register and Emit events within an instance
+ *
+ */
 class EventHandler {
+    /**
+     * Creates an EventHandler which can register and emit events
+     */
     constructor() {
         this.listeners = new Map();
     }
+    /**
+     * Adds the function as an event listener
+     * @param type what event name to register to
+     * @param callback function/s to call
+     */
     addEventListener(type, callback) {
         var _a;
         if (!this.listeners.has(type)) {
@@ -9,6 +21,11 @@ class EventHandler {
         }
         (_a = this.listeners.get(type)) === null || _a === void 0 ? void 0 : _a.push(callback);
     }
+    /**
+     * Remove the function as an event listener
+     * @param type what event name to remove it from
+     * @param callback function/s to remove
+     */
     removeEventListener(type, callback) {
         if (!this.listeners.has(type)) //No event with this name
             return;
@@ -17,6 +34,18 @@ class EventHandler {
         funcs.splice(i, 1);
         this.listeners.set(type, funcs);
     }
+    /**
+     * Clears all callback functions for a given event name
+     * @param type event name
+     */
+    clearEvent(type) {
+        return this.listeners.delete(type);
+    }
+    /**
+     * Calls the event registered under given type as event(data)
+     * @param type what emit event we call
+     * @param data data to pass to event argument
+     */
     emit(type, ...data) {
         var _a, _b;
         if (!this.listeners.has(type)) // No Event with this name
@@ -29,7 +58,15 @@ class EventHandler {
         }
     }
 }
+/**
+ * Implementation of IMessage with IToString with JSON
+ */
 class Message {
+    /**
+     * Creates a new WebSocket Message
+     * @param action Event name
+     * @param data arg to give the event call
+     */
     constructor(action, data = null) {
         this.action = action;
         this.data = data;
@@ -38,6 +75,9 @@ class Message {
         return JSON.stringify(this);
     }
 }
+/**
+ *
+ */
 class AbstractGame extends EventHandler {
     constructor() {
         super();

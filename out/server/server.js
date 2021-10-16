@@ -22,15 +22,13 @@ app.use('/both/', express.static(path.join(__dirname, "../both/"))); //add the c
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
 });
-const msgHandler = new EventHandler();
+const MessageHandler = new EventHandler();
 // WebSocket stuff
 wss.on('connection', (ws, req) => {
     ws.on('message', (data, isBinary) => {
         console.log(`Received message: ${data}`);
         const msg = JSON.parse(data.toString());
-        console.log(typeof (msg));
-        console.log(msg);
-        msgHandler.emit(msg.action, msg.data);
+        MessageHandler.emit(msg.action, msg.data);
     });
     ws.send(new Message('connected').ToString());
 });

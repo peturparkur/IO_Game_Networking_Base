@@ -40,6 +40,14 @@ class EventHandler{
     }
 
     /**
+     * Clears all callback functions for a given event name
+     * @param type event name
+     */
+    clearEvent(type : string){
+        return this.listeners.delete(type)
+    }
+
+    /**
      * Calls the event registered under given type as event(data)
      * @param type what emit event we call
      * @param data data to pass to event argument

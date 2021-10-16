@@ -2,19 +2,15 @@
 import { EventHandler, Message } from "../both/classes.h.js";
 const ws = new WebSocket('ws://localhost:3030');
 ws.onopen = (openEv) => {
-    console.log('opened');
 };
-const msgHandler = new EventHandler();
-msgHandler.addEventListener('connected', () => {
+const MessageHandler = new EventHandler();
+MessageHandler.addEventListener('connected', () => {
     console.log('we have connected to server');
 });
 ws.onmessage = (message) => {
     console.log('Received message');
-    console.log(`data: ${message}, ${message.data}`);
     const msg = JSON.parse(message.data);
-    console.log(msg);
     ws.send(new Message('new', ['testing']).ToString());
-    msgHandler.emit(msg.action, msg.data);
-    // ws.send('test message')
+    MessageHandler.emit(msg.action, msg.data);
 };
-export { ws };
+export { ws, MessageHandler };

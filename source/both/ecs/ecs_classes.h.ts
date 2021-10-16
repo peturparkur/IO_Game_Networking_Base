@@ -5,7 +5,10 @@ interface IComponent {
 }
 
 interface IUpdate {
-    Update(dt : number) : void
+    Update(dt : unknown) : void
+}
+interface IUpdateEntity {
+    Update(dt : Set<Entity>) : void
 }
 
 interface IAwake {
@@ -101,19 +104,18 @@ class ComponentContainer{
  */
 type Entity = number
 
-abstract class System {
+abstract class System implements IUpdate{
     public ecs!: ECS
     public abstract requireComponents : Set<constr<IComponent>>;
-
     public abstract Update(entities: Set<Entity>) : void
 }
 
-class ECS {
+class ECS implements IUpdate{
     protected entities : Map<Entity, ComponentContainer> = new Map<Entity, ComponentContainer>()
     protected systems : Map<System, Set<Entity>> = new Map<System, Set<Entity>>()
 
     private nextId : number = 0
-    private entityToRemove : Set<Entity> = new Set<Entity>()
+    private entitiesToRemove : Set<Entity> = new Set<Entity>()
 
     public AddEntity(): Entity{
         const entity = this.nextId
@@ -123,7 +125,14 @@ class ECS {
     }
 
     public RemoveEntity(entity : Entity) : void{
-        this.entityToRemove.add(entity)
+        this.entitiesToRemove.add(entity)
+    }
+
+    public ClearGarbageEntities(){
+        for (const entity of this.entitiesToRemove){
+            this.DestroyEntity(entity)
+            this.entitiesToRemove.delete(entity)
+        }
     }
 
     private DestroyEntity(entity : Entity) : void{
@@ -164,7 +173,10 @@ class ECS {
         this.systems.delete(system);
     }
 
-    public Update(){
+    /**
+     * Updates the systems
+     */
+    public Update(dt : number = 0){
         for (const [system, entities] of this.systems.entries()){
             system.Update(entities)
         }
