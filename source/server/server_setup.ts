@@ -55,6 +55,10 @@ class BaseServer{
         this.messageHandler.removeEventListener(eventName, callback)
     }
 
+    EmitEvent(eventName : string, ...data : any[]){
+        this.messageHandler.emit(eventName, ...data)
+    }
+
     StartServer(port : number | null = null){
         if(port != null) this.port = port
         this.server.listen(this.port, () =>{
